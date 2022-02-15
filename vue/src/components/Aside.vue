@@ -2,7 +2,7 @@
   <div>
     <el-menu
         default-active="2"
-        style="width: 192px;height: calc(100vh - 50px)"
+        style="width: 200px;height: calc(100vh - 50px)"
     >
       <el-sub-menu index="1">
         <template #title>
