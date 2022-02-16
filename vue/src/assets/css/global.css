@@ -6,3 +6,11 @@
 .center-x {
     text-align: center;
 }
+.login-box, .register-box {
+    width: 300px;
+    margin: 150px auto;
+}
+.login-font, .register-font {
+    font-size: 30px;
+    color: #409EFF;
+}

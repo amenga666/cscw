@@ -1,9 +1,6 @@
 <template>
   <div>
-    <el-menu
-        default-active="2"
-        style="width: 200px;height: calc(100vh - 50px)"
-    >
+    <el-menu default-active="2" class="menu">
       <el-sub-menu index="1">
         <template #title>
           <el-icon><user /></el-icon>
@@ -31,5 +28,8 @@ export default {
 </script>
 
 <style scoped>
-
+.menu {
+  width: 200px;
+  height: calc(100vh - 50px);
+}
 </style>

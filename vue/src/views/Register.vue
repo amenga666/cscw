@@ -1,7 +1,6 @@
 <template>
-<!--  <el-header class="center-x">大学生竞赛网站</el-header>-->
-  <div class="login-box">
-    <div class="center-x login-font" style="padding: 30px;">欢迎登录</div>
+  <div class="register-box">
+    <div class="center-x register-font" style="padding: 30px;">欢迎注册</div>
     <el-form ref="form" :model="form">
       <el-form-item>
         <el-input v-model="username" placeholder="请输入用户名">
@@ -18,40 +17,37 @@
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="password" placeholder="请输入验证码" show-password>
+        <el-input v-model="confirm" placeholder="请确认密码" show-password>
           <template #prefix>
-            <el-icon class="el-input__icon"><key /></el-icon>
+            <el-icon class="el-input__icon"><lock /></el-icon>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button style="width: 100%" type="primary" @click="login">登 录</el-button>
+        <el-button style="width: 100%" type="primary" @click="register">注 册</el-button>
       </el-form-item>
-      <el-form-item><el-button type="text" @click="$router.push('/register')">前往注册 >></el-button></el-form-item>
+      <el-form-item><el-button type="text" @click="$router.push('/login')">&lt;&lt; 返回登录</el-button></el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import {User, Lock, Key} from "@element-plus/icons-vue";
-
+import {User, Lock} from "@element-plus/icons-vue";
 export default {
-  name: "Login",
-  components: {User, Lock, Key},
+  name: "Register",
+  components: {User, Lock},
   data() {
     return {
       form: {},
       username: [],
       password: [],
+      confirm: [],
     }
   },
   methods: {
-    login() {
+    register() {
       print()
     }
   }
 }
-
 </script>
-
-<!--prefix-icon="lock"-->
