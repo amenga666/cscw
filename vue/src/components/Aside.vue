@@ -4,11 +4,58 @@
       <el-sub-menu index="1">
         <template #title>
           <el-icon><user /></el-icon>
-          <span>用户管理</span>
+          <span>主页</span>
         </template>
           <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item one</el-menu-item>
-          <el-menu-item index="1-3">item three</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="2">
+        <template #title>
+          <el-icon><user /></el-icon>
+          <span>报名活动</span>
+        </template>
+        <el-menu-item index="2-1">item one</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="3">
+        <template #title>
+          <el-icon><user /></el-icon>
+          <span>报名管理</span>
+        </template>
+        <el-menu-item index="3-1">item one</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="4">
+        <template #title>
+          <el-icon><user /></el-icon>
+          <span>主页管理</span>
+        </template>
+        <el-menu-item index="4-1">item one</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="5">
+        <template #title>
+          <el-icon><user /></el-icon>
+          <span>用户管理</span>
+        </template>
+        <el-menu-item index="5-1">item one</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="6">
+        <template #title>
+          <el-icon><user /></el-icon>
+          <span>活动管理</span>
+        </template>
+        <el-menu-item index="6-1">item one</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="7">
+        <template #title>
+          <el-icon><user /></el-icon>
+          <span>权限管理</span>
+        </template>
+        <el-menu-item index="7-1">item one</el-menu-item>
+      </el-sub-menu>
+      <el-sub-menu index="8">
+        <template #title>
+          <el-icon><user /></el-icon>
+          <span>导航管理</span>
+        </template>
+        <el-menu-item index="8-1">item one</el-menu-item>
       </el-sub-menu>
     </el-menu>
   </div>

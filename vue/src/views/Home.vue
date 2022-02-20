@@ -10,12 +10,12 @@
     </div>
 <!--    表格-->
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column fixed prop="date" label="Date"/>
-      <el-table-column prop="name" label="Name"/>
-      <el-table-column prop="state" label="State"/>
-      <el-table-column prop="city" label="City"/>
-      <el-table-column prop="address" label="Address"/>
-      <el-table-column prop="zip" label="Zip"/>
+      <el-table-column fixed prop="userId" label="用户编号"/>
+      <el-table-column prop="userName" label="用户名"/>
+      <el-table-column prop="nickname" label="昵称"/>
+      <el-table-column prop="sex" label="性别"/>
+      <el-table-column prop="age" label="年龄"/>
+      <el-table-column prop="address" label="住址"/>
       <el-table-column fixed="right" label="Operations">
 <!--        编辑、删除-->
         <template #default>
@@ -49,14 +49,14 @@
 <!--      表单-->
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="用户名">
-          <el-input v-model="form.username" style="width: 66%"></el-input>
+          <el-input v-model="form.userName" style="width: 66%"></el-input>
         </el-form-item>
       </el-form>
 <!--      对话框按钮-->
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+          <el-button type="primary" @click="save">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import request from "../utils/request";
+
 export default {
   name: 'Home',
   components: {},
@@ -76,15 +78,7 @@ export default {
       dialogVisible: false,
       form: {},
       tableData: [
-        {
-          date: '2016-05-03',
-          name: 'Tom',
-          state: 'California',
-          city: 'Los Angeles',
-          address: 'No. 189, Grove St, Los Angeles',
-          zip: 'CA 90036',
-          tag: 'Home',
-        },
+
       ],
     }
   },
@@ -92,6 +86,11 @@ export default {
     add() {
       this.dialogVisible = true
       this.form = {}
+    },
+    save() {
+      request.post("/user", this.form).then(res => {
+        console.log(res)
+      })
     },
     handleEdit() {
 
