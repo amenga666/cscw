@@ -1,16 +1,37 @@
+/*全局消除边距*/
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+/*水平居中，主要用于文本，有继承性*/
 .center-x {
     text-align: center;
 }
+
+/*登录注册界面背景样式*/
+.login, .register {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/*登录注册框样式*/
 .login-box, .register-box {
     width: 300px;
     margin: 150px auto;
 }
+
+/*登录注册字体样式*/
 .login-font, .register-font {
     font-size: 30px;
     color: #409EFF;
+}
+
+/*背景图片*/
+.image {
+    background-image: url("../images/bg.jpg");
+    background-size: cover;
+    /*cover等比例填充*/
 }

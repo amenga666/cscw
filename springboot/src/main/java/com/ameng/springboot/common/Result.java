@@ -52,8 +52,8 @@ public class Result<T> {
 
     public static Result error(int code, String msg) {
         Result result = new Result();
-        result.setCode(0);
-        result.setMsg("成功");
+        result.setCode(code);
+        result.setMsg(msg);
         return result;
     }
 }

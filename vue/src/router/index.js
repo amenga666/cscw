@@ -6,8 +6,8 @@ const routes = [
     path: '/',
     name: 'Layout',
     component: Layout,
-    redirect: "/home",
-    children: [
+    redirect: "/home", // 路由重定向，访问/根节点会重定向到/home
+    children: [ // 数组，存放嵌套路由
       {
         path: '/home',
         name: 'Home',

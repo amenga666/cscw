@@ -53,4 +53,28 @@ public class UserController {
         Page<User> userPage = userMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
         return Result.success(userPage);
     }
+
+    @PostMapping("/login")
+    public Result<?> login(@RequestBody User user) {
+        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery()
+                .eq(User::getUserName, user.getUserName())
+                .eq(User::getPassword, user.getPassword()));
+        if (res == null) {
+            return Result.error(-1, "用户名或密码错误");
+        }
+        return Result.success();
+    }
+
+    @PostMapping("/register")
+    public Result<?> register(@RequestBody User user) {
+        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUserName, user.getUserName()));
+        if (res != null) {
+            return Result.error(-1, "用户名已存在");
+        }
+        if (user.getPassword() == null) { // 注册界面已经验证密码不能为空，意外情况密码为空时，此处设置默认密码为123456
+            user.setPassword("123456");
+        }
+        userMapper.insert(user);
+        return Result.success();
+    }
 }

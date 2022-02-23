@@ -1,5 +1,5 @@
 <template>
-<!--  访问Home.vue-->
+<!--  访问根节点-->
   <router-view/>
 </template>
 
