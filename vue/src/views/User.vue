@@ -3,20 +3,26 @@
 <!--    新增、查询、导入、导出-->
     <div>
       <el-button type="primary" @click="add">新增</el-button>
-      <el-button type="primary">导入</el-button>
-      <el-button type="primary">导出</el-button>
-      <el-input v-model="search" placeholder="请输入用户名、昵称或性别关键字" clearable @keyup.enter="load" style="margin: 0 12px;width: 20%"/>
+<!--      <el-button type="primary">导入</el-button>-->
+<!--      <el-button type="primary">导出</el-button>-->
+      <el-input v-model="search" placeholder="请输入昵称关键字" clearable @keyup.enter="load" style="margin: 0 12px;width: 20%"/>
       <el-button type="primary" @click="load">查询</el-button>
     </div>
 <!--    表格-->
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column fixed prop="userId" label="用户ID" sortable/>
+    <el-table :data="tableData" style="width: 100%; margin: 10px 0" border>
+      <el-table-column prop="userId" label="用户ID" sortable/>
       <el-table-column prop="userName" label="用户名"/>
       <el-table-column prop="nickname" label="昵称"/>
       <el-table-column prop="sex" label="性别"/>
       <el-table-column prop="age" label="年龄" sortable/>
       <el-table-column prop="address" label="住址"/>
-      <el-table-column fixed="right" label="操作">
+      <el-table-column label="权限">
+        <template #default="scope">
+          <span v-if="scope.row.role === 1">管理员</span>
+          <span v-if="scope.row.role === 2">普通用户</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
 <!--        编辑、删除-->
 
 <!--        scope 暂时没找到使用文档，但是不加scope编辑对话框不显示-->
@@ -51,10 +57,10 @@
 <!--      表单-->
       <el-form ref="form" :model="form" label-width="120px" @keyup.enter="save">
         <el-form-item label="用户名">
-          <el-input v-model="form.userName" style="width: 66%"></el-input>
+          <el-input v-model="form.userName" class="form-input"></el-input>
         </el-form-item>
         <el-form-item label="昵称">
-          <el-input v-model="form.nickname" style="width: 66%"></el-input>
+          <el-input v-model="form.nickname" class="form-input"></el-input>
         </el-form-item>
         <el-form-item label="性别">
           <div style="margin-left: 40px;">
@@ -63,10 +69,10 @@
           </div>
         </el-form-item>
         <el-form-item label="年龄">
-          <el-input v-model="form.age" style="width: 66%"></el-input>
+          <el-input v-model="form.age" class="form-input"></el-input>
         </el-form-item>
         <el-form-item label="住址">
-          <el-input v-model="form.address" style="width: 66%"></el-input>
+          <el-input v-model="form.address" class="form-input"></el-input>
         </el-form-item>
       </el-form>
 <!--      对话框按钮-->
@@ -85,7 +91,7 @@ import request from "../utils/request";
 import {ElMessage} from "element-plus";
 
 export default {
-  name: 'Home',
+  name: 'User',
   components: {},
   data() {
     return {
@@ -196,3 +202,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.form-input {
+  width: 66%;
+}
+</style>

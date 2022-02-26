@@ -6,12 +6,27 @@ const routes = [
     path: '/',
     name: 'Layout',
     component: Layout,
-    redirect: "/home", // 路由重定向，访问/根节点会重定向到/home
+    redirect: "/notice", // 路由重定向
     children: [ // 数组，存放嵌套路由
       {
-        path: '/home',
-        name: 'Home',
-        component: () => import("@/views/Home")
+        path: '/notice',
+        name: 'Notice',
+        component: () => import("@/views/Notice")
+      },
+      {
+        path: '/enroll',
+        name: 'Enroll',
+        component: () => import("@/views/Enroll")
+      },
+      {
+        path: '/user',
+        name: 'User',
+        component: () => import("@/views/User")
+      },
+      {
+        path: '/person',
+        name: 'Person',
+        component: () => import("@/views/Person")
       }
     ]
   },
@@ -24,7 +39,7 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import("@/views/Register")
-  }
+  },
 ]
 
 const router = createRouter({

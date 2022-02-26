@@ -1,75 +1,54 @@
 <template>
   <div>
-    <el-menu default-active="2" class="menu">
+<!--    default-active="" 默认高亮，引号中写index值，使用$route.path控制高亮菜单-->
+    <el-menu class="menu" router :default-active="$route.path">
       <el-sub-menu index="1">
         <template #title>
-          <el-icon><user /></el-icon>
+          <el-icon><house /></el-icon>
           <span>主页</span>
         </template>
-          <el-menu-item index="1-1">item one</el-menu-item>
+          <el-menu-item index="/notice">
+            <el-icon><notification /></el-icon>
+            报名公告</el-menu-item>
       </el-sub-menu>
-      <el-sub-menu index="2">
-        <template #title>
-          <el-icon><user /></el-icon>
-          <span>报名活动</span>
-        </template>
-        <el-menu-item index="2-1">item one</el-menu-item>
-      </el-sub-menu>
-      <el-sub-menu index="3">
-        <template #title>
-          <el-icon><user /></el-icon>
-          <span>报名管理</span>
-        </template>
-        <el-menu-item index="3-1">item one</el-menu-item>
-      </el-sub-menu>
-      <el-sub-menu index="4">
-        <template #title>
-          <el-icon><user /></el-icon>
-          <span>主页管理</span>
-        </template>
-        <el-menu-item index="4-1">item one</el-menu-item>
-      </el-sub-menu>
-      <el-sub-menu index="5">
-        <template #title>
-          <el-icon><user /></el-icon>
-          <span>用户管理</span>
-        </template>
-        <el-menu-item index="5-1">item one</el-menu-item>
-      </el-sub-menu>
-      <el-sub-menu index="6">
-        <template #title>
-          <el-icon><user /></el-icon>
-          <span>活动管理</span>
-        </template>
-        <el-menu-item index="6-1">item one</el-menu-item>
-      </el-sub-menu>
-      <el-sub-menu index="7">
-        <template #title>
-          <el-icon><user /></el-icon>
-          <span>权限管理</span>
-        </template>
-        <el-menu-item index="7-1">item one</el-menu-item>
-      </el-sub-menu>
-      <el-sub-menu index="8">
-        <template #title>
-          <el-icon><user /></el-icon>
-          <span>导航管理</span>
-        </template>
-        <el-menu-item index="8-1">item one</el-menu-item>
-      </el-sub-menu>
+      <el-menu-item index="/enroll">
+        <el-icon><edit /></el-icon>
+        竟赛报名
+      </el-menu-item>
+      <el-menu-item index="/user" v-if="user.role === 1">
+        <el-icon><user /></el-icon>
+        用户管理
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script>
 import {
-  User,
+  User, House, Edit, Notification
 } from '@element-plus/icons-vue'
+import request from "../utils/request";
 
 export default {
   name: "Aside",
   components: {
-    User
+    User, House, Edit, Notification
+  },
+  data() {
+    return {
+      user: {}
+    }
+  },
+  created() { // 获取用户JSON
+    let userStr = sessionStorage.getItem("user") || "{}"
+    this.user = JSON.parse(userStr) // 转换为user对象user: {}
+
+    // 请求服务端，确认当前登录用户的合法信息，防止通过修改缓存来更改用户权限
+    request.get("/user/" + this.user.userId).then(res => {
+      if (res.code === 0) {
+        this.user = res.data
+      }
+    })
   }
 }
 </script>
@@ -80,3 +59,10 @@ export default {
   height: calc(100vh - 50px);
 }
 </style>
+
+<!--导航菜单存入数据库-->
+<!--<div  v-for="m in user.permissions" :key="m.id">-->
+<!--<el-menu-item :index="m.path" v-if="m.name !== 'Person' && m.name !== 'Password' ">-->
+<!--  <i :class="m.icon"></i>  {{ m.comment }}-->
+<!--</el-menu-item>-->
+<!--</div>-->

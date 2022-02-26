@@ -1,5 +1,5 @@
 <template>
-  <div class="login image">
+  <div class="login image" @keyup.enter="login">
 <!--    <el-header class="center-x">大学生竞赛网站</el-header>-->
     <div class="login-box">
       <div class="center-x login-font" style="padding: 30px;">欢迎登录</div>
@@ -64,6 +64,7 @@ export default {
                 message: "登录成功",
                 center: true
               })
+              sessionStorage.setItem("user", JSON.stringify(res.data))  // 缓存用户信息
               this.$router.push("/") // 登录成功后跳转到主页
             } else {
               ElMessage({

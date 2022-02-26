@@ -1,9 +1,13 @@
 import axios from 'axios'
+import router from "../router";
 
 const request = axios.create({
     baseURL: '/api',  // 注意！！ 这里是全局统一加上了 '/api' 前缀，也就是说所有接口都会加上'/api'前缀在，页面里面写接口的时候就不要加 '/api'了，否则会出现2个'/api'，类似 '/api/api/user'这样的报错，切记！！！
     timeout: 5000
 })
+
+// 请求白名单，如果请求在白名单里面，将不会被拦截校验权限
+const whiteUrls = ["/user/login", '/user/register']
 
 // request 拦截器
 // 可以自请求发送前对请求做一些处理
@@ -12,6 +16,18 @@ request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
 
     // config.headers['token'] = user.token;  // 设置请求头
+
+    // 取出sessionStorage里面缓存的用户信息
+    let userJson = sessionStorage.getItem("user")
+    if (!whiteUrls.includes(config.url)) {  // 校验请求白名单
+        if(!userJson) {
+            router.push("/login")
+        }
+        // else {
+        //     let user = JSON.parse(userJson);
+        //     config.headers['token'] = user.token;  // 设置请求头
+        // }
+    }
     return config
 }, error => {
     return Promise.reject(error)
