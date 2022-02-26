@@ -43,7 +43,7 @@ public class UserController {
     @GetMapping // GET接口
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum, // 不写三个参数会报400，参数可在url中手动添加
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search) {
+                              @RequestParam(defaultValue = "") String search) {   // 默认值为空避免空查询报错
         LambdaQueryWrapper<User> wrapper = Wrappers.<User>lambdaQuery();
 
         // 值为null无法like

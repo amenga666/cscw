@@ -1,0 +1,14 @@
+#yml配置文件，使用键值对
+server:
+  port: 9090
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cscw
+    username: root
+    password: root
+
+#扫描所有mybatis的xml文件
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml

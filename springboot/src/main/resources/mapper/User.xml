@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ameng.springboot.mapper.UserMapper">
+
+</mapper>
+
+<!--        配置动态SQL P7-->
+<!--        Copy Reference 建议安装MybatisX插件-->
+<!--        使用此文件需要在application配置文件中添加配置-->
