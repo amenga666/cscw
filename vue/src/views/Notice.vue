@@ -2,7 +2,8 @@
   <div style="padding: 10px">
     <div>
       <el-button type="primary" @click="add" v-if="user.role === 1">新增</el-button>
-      <el-input v-model="search" placeholder="请输入公告标题关键字" clearable @keyup.enter="load" style="margin: 0 12px;width: 20%"/>
+      <el-input v-model="search" placeholder="请输入公告标题关键字" clearable @keyup.enter="load"
+                style="margin: 0 12px;width: 20%"/>
       <el-button type="primary" @click="load">查询</el-button>
     </div>
     <!--    表格-->
@@ -11,8 +12,8 @@
       <el-table-column prop="title" label="标题"/>
       <el-table-column prop="publisher" label="发布者"/>
       <el-table-column prop="time" label="时间"/>
-      <el-table-column prop="content" label="内容"/>
-<!--      设置操作列宽度为200px，避免三个按钮位置错乱-->
+      <!--      <el-table-column prop="content" label="内容"/>-->
+      <!--      设置操作列宽度为200px，避免三个按钮位置错乱-->
       <el-table-column label="操作" width="200px">
         <!--        编辑、删除-->
         <!--        scope 暂时没找到使用文档，但是不加scope编辑对话框不显示-->
@@ -46,12 +47,12 @@
         <el-form-item label="标题">
           <el-input v-model="form.title"></el-input>
         </el-form-item>
-<!--        <el-form-item label="发布者">-->
-<!--          <el-input v-model="form.publisher" style="width: 66%"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="时间">-->
-<!--          <el-input v-model="form.time" style="width: 66%"></el-input>-->
-<!--        </el-form-item>-->
+        <!--        <el-form-item label="发布者">-->
+        <!--          <el-input v-model="form.publisher" style="width: 66%"></el-input>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="时间">-->
+        <!--          <el-input v-model="form.time" style="width: 66%"></el-input>-->
+        <!--        </el-form-item>-->
         <el-form-item>
           <div id="div1"></div>
         </el-form-item>
@@ -65,7 +66,7 @@
       </template>
     </el-dialog>
 
-<!--    公告详情-->
+    <!--    公告详情-->
     <el-dialog v-model="vis" title="公告详情" width="60%">
       <el-card>
         <div v-html="detail.content" style="min-height: 200px"></div>
@@ -187,7 +188,7 @@ export default {
         this.total = res.data.total
       })
     },
-    details (row) { // 公告详情
+    details(row) { // 公告详情
       this.detail = row
       this.vis = true
     },

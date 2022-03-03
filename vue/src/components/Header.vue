@@ -3,7 +3,7 @@
     <div class="grid-content bg-purple header" style="width: 200px; color: #409EFF">系统管理</div>
     <div class="grid-content bg-purple-light header" style="flex: 1">大学生竞赛网站</div>
     <div class="grid-content bg-purple" style="width: 200px;">
-      <el-avatar :src="circleUrl" class="avatar"></el-avatar>
+      <el-avatar :src="user.avatar" class="avatar"></el-avatar>
       <el-dropdown class="header">
         <span>
           {{ user.nickname }}

@@ -8,8 +8,8 @@ import lombok.Data;
 
 import java.util.Date;
 
-@TableName("enroll") //与数据库表对应
-    @Data //lombok自动生成get、set方法注解
+@TableName("enroll")   //与数据库表对应
+    @Data   //lombok自动生成get、set方法注解
     public class Enroll {
         @TableId(value = "enroll_id", type = IdType.AUTO)
         private Integer enrollId;

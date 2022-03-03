@@ -31,7 +31,7 @@
 
 /*背景图片*/
 .image {
-    background-image: url("../images/bg.jpg");
+    background-image: url("../../assets/bg.jpg");
     background-size: cover;
     /*cover等比例填充*/
 }

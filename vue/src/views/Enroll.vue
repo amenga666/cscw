@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 10px">
     <div>
-      <el-button type="primary" @click="add" v-if="user.role === 1">报名</el-button>
+      <el-button type="primary" @click="add">报名</el-button>
       <el-input v-model="search" placeholder="请输入作品名关键字" clearable @keyup.enter="load" style="margin: 0 12px;width: 20%"/>
       <el-button type="primary" @click="load">查询</el-button>
     </div>
@@ -41,7 +41,7 @@
         style="margin: 10px"
         v-model:currentPage="currentPage"
         v-model:page-size="pageSize"
-        :page-sizes="[5, 10, 15, 20]"
+        :page-sizes="[2, 3, 4, 5]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         @size-change="handleSizeChange"
@@ -69,6 +69,12 @@
         </span>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="vis" title="报名详情" width="60%">
+      <el-card>
+        <div>报名详情</div>
+      </el-card>
+    </el-dialog>
   </div>
 </template>
 
@@ -84,11 +90,12 @@ export default {
       user: {},
       search: '',
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 3,
       total: 0,
       dialogVisible: false,
       form: {},
       tableData: [],
+      vis: false,
     }
   },
   created() { // 页面加载时调用load方法，获取数据显示在表格中 获取用户JSON
@@ -107,6 +114,10 @@ export default {
     filesUploadSuccess(res) {
       console.log(res)
       this.form.url = res.data   // 将上传成功返回的url赋值给表单
+    },
+    details(row) {   // 详情
+      this.detail = row
+      this.vis = true
     },
     add() {
       this.dialogVisible = true

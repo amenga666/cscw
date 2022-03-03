@@ -11,39 +11,39 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-@RestController // 定义为返回JSON的Controller
-@RequestMapping("/user") //路由
+@RestController   // 定义为返回JSON的Controller
+@RequestMapping("/user")   //路由
 public class UserController {
 
-    @Resource // 将Mapper引入到Controller中，规范应加上Service
+    @Resource   // 将Mapper引入到Controller中，规范应加上Service
     UserMapper userMapper;
 
     // 增
-    @PostMapping // POST接口
+    @PostMapping   // POST接口
     public Result<?> save(@RequestBody User user) {
-        userMapper.insert(user); // 新增user实体
+        userMapper.insert(user);   // 新增user实体
         return Result.success();
     }
 
     // 删
-    @DeleteMapping("/{user_id}") // 占位符 注解中字段名下划线不用改成驼峰
+    @DeleteMapping("/{user_id}")   // 占位符 注解中字段名下划线不用改成驼峰
     public Result<?> delete(@PathVariable Long user_id) {
         userMapper.deleteById(user_id);
         return Result.success();
     }
 
     // 改
-    @PutMapping // PUT接口
+    @PutMapping   // PUT接口
     public Result<?> update(@RequestBody User user) {
         userMapper.updateById(user);
         return Result.success();
     }
 
     // 查
-    @GetMapping // GET接口
-    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum, // 不写三个参数会报400，参数可在url中手动添加
+    @GetMapping   // GET接口
+    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,   // 不写三个参数会报400，参数可在url中手动添加
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search) {   // 默认值为空避免空查询报错
+                              @RequestParam(defaultValue = "") String search) {    // 默认值为空避免空查询报错
         LambdaQueryWrapper<User> wrapper = Wrappers.<User>lambdaQuery();
 
         // 值为null无法like
@@ -71,14 +71,14 @@ public class UserController {
         if (res != null) {
             return Result.error(-1, "用户名已存在");
         }
-        if (user.getPassword() == null) { // 注册界面已经验证密码不能为空，意外情况密码为空时，此处设置默认密码为123456
+        if (user.getPassword() == null) {   // 注册界面已经验证密码不能为空，意外情况密码为空时，此处设置默认密码为123456
             user.setPassword("123456");
         }
         userMapper.insert(user);
         return Result.success();
     }
 
-    @GetMapping("/{user_id}")
+    @GetMapping("/{user_id}")   // 根据id获取用户信息
     public Result<?> getById(@PathVariable Long user_id) {
         return Result.success(userMapper.selectById(user_id));
     }

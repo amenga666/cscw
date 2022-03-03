@@ -1,4 +1,4 @@
-package com.ameng.springboot.common;
+package com.ameng.springboot.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

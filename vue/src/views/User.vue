@@ -1,14 +1,15 @@
 <template>
   <div style="padding: 10px">
-<!--    新增、查询、导入、导出-->
+    <!--    新增、查询、导入、导出-->
     <div>
       <el-button type="primary" @click="add">新增</el-button>
-<!--      <el-button type="primary">导入</el-button>-->
-<!--      <el-button type="primary">导出</el-button>-->
-      <el-input v-model="search" placeholder="请输入昵称关键字" clearable @keyup.enter="load" style="margin: 0 12px;width: 20%"/>
+      <!--      <el-button type="primary">导入</el-button>-->
+      <!--      <el-button type="primary">导出</el-button>-->
+      <el-input v-model="search" placeholder="请输入昵称关键字" clearable @keyup.enter="load"
+                style="margin: 0 12px;width: 20%"/>
       <el-button type="primary" @click="load">查询</el-button>
     </div>
-<!--    表格-->
+    <!--    表格-->
     <el-table :data="tableData" style="width: 100%; margin: 10px 0" border>
       <el-table-column prop="userId" label="用户ID" sortable/>
       <el-table-column prop="userName" label="用户名"/>
@@ -16,6 +17,16 @@
       <el-table-column prop="sex" label="性别"/>
       <el-table-column prop="age" label="年龄" sortable/>
       <el-table-column prop="address" label="住址"/>
+      <el-table-column label="头像">
+        <template #default="scope">
+          <el-image
+              style="width: 100px; height: 100px"
+              :src="scope.row.avatar"
+              :preview-src-list="[scope.row.avatar]"
+              fit="cover"
+          ></el-image>
+        </template>
+      </el-table-column>
       <el-table-column label="权限">
         <template #default="scope">
           <span v-if="scope.row.role === 1">管理员</span>
@@ -23,9 +34,9 @@
         </template>
       </el-table-column>
       <el-table-column label="操作">
-<!--        编辑、删除-->
+        <!--        编辑、删除-->
 
-<!--        scope 暂时没找到使用文档，但是不加scope编辑对话框不显示-->
+        <!--        scope 暂时没找到使用文档，但是不加scope编辑对话框不显示-->
         <template #default="scope">
           <el-button type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
           <el-popconfirm title="确认删除？" @confirm="handDelete(scope.row.userId)">
@@ -36,7 +47,7 @@
         </template>
       </el-table-column>
     </el-table>
-<!--    分页-->
+    <!--    分页-->
     <el-pagination
         style="margin: 10px"
         v-model:currentPage="currentPage"
@@ -48,13 +59,13 @@
         @current-change="handleCurrentChange"
     >
     </el-pagination>
-<!--    新增对话框-->
+    <!--    新增对话框-->
     <el-dialog
         v-model="dialogVisible"
         title="Tips"
         width="30%"
     >
-<!--      表单-->
+      <!--      表单-->
       <el-form ref="form" :model="form" label-width="120px" @keyup.enter="save">
         <el-form-item label="用户名">
           <el-input v-model="form.userName" class="form-input"></el-input>
@@ -75,7 +86,7 @@
           <el-input v-model="form.address" class="form-input"></el-input>
         </el-form-item>
       </el-form>
-<!--      对话框按钮-->
+      <!--      对话框按钮-->
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>

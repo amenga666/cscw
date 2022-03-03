@@ -1,13 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Layout from "../layout/Layout";
+import Layout from "../components/Layout";
 
 const routes = [
   {
     path: '/',
     name: 'Layout',
     component: Layout,
-    redirect: "/notice", // 路由重定向
-    children: [ // 数组，存放嵌套路由
+    redirect: "/home",   // 路由重定向
+    children: [   // 数组，存放嵌套路由
+      {
+        path: '/home',
+        name: 'Home',
+        component: () => import("@/views/Home")
+      },
       {
         path: '/notice',
         name: 'Notice',
@@ -40,6 +45,11 @@ const routes = [
     name: 'Register',
     component: () => import("@/views/Register")
   },
+  {
+    path: '/test',
+    name: 'Test',
+    component: () => import("@/components/Test")
+  }
 ]
 
 const router = createRouter({
