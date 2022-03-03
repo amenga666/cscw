@@ -37,7 +37,7 @@ export default {
       let userId = JSON.parse(userJson).id
       // 从后台取出最新的用户信息
       request.get("/user/" + userId).then(res => {
-        this.user =res.data
+        this.user = res.data
       })
     }
   }

@@ -11,7 +11,7 @@
     </div>
     <!--    表格-->
     <el-table :data="tableData" style="width: 100%; margin: 10px 0" border>
-      <el-table-column prop="userId" label="用户ID" sortable/>
+      <el-table-column prop="userId" label="用户ID" width="100px" sortable/>
       <el-table-column prop="userName" label="用户名"/>
       <el-table-column prop="nickname" label="昵称"/>
       <el-table-column prop="sex" label="性别"/>
@@ -22,7 +22,6 @@
           <el-image
               style="width: 100px; height: 100px"
               :src="scope.row.avatar"
-              :preview-src-list="[scope.row.avatar]"
               fit="cover"
           ></el-image>
         </template>

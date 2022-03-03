@@ -1,26 +1,28 @@
 <template>
   <div style="padding: 10px">
     <div>
-      <el-button type="primary" @click="add">报名</el-button>
-      <el-input v-model="search" placeholder="请输入作品名关键字" clearable @keyup.enter="load" style="margin: 0 12px;width: 20%"/>
+      <el-button type="primary" @click="add">新增报名</el-button>
+      <el-input v-model="search" placeholder="请输入作品名关键字" clearable @keyup.enter="load"
+                style="margin: 0 12px;width: 20%"/>
       <el-button type="primary" @click="load">查询</el-button>
     </div>
     <!--    表格-->
     <el-table :data="tableData" style="width: 100%; margin: 10px 0" border>
-      <el-table-column prop="enrollId" label="报名ID" sortable/>
+      <el-table-column prop="enrollId" label="报名ID" width="100px" sortable/>
       <el-table-column prop="entriesname" label="作品名"/>
       <el-table-column prop="competitor" label="参赛者"/>
       <el-table-column prop="enrolltime" label="报名时间"/>
-<!--      <el-table-column label="图片文件">-->
-<!--        <template #default="scope">-->
-<!--          <el-image-->
-<!--              style="width: 100px; height: 100px"-->
-<!--              :src="scope.row.url"-->
-<!--              :preview-src-list="[scope.row.url]"-->
-<!--              fit="cover"-->
-<!--          ></el-image>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <el-table-column prop="score" label="得分" width="100px"/>
+      <!--      <el-table-column label="图片文件">-->
+      <!--        <template #default="scope">-->
+      <!--          <el-image-->
+      <!--              style="width: 100px; height: 100px"-->
+      <!--              :src="scope.row.url"-->
+      <!--              :preview-src-list="[scope.row.url]"-->
+      <!--              fit="cover"-->
+      <!--          ></el-image>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <!--      设置操作列宽度为200px，避免三个按钮位置错乱-->
       <el-table-column label="操作" width="200px">
         <!--        编辑、删除-->
@@ -49,9 +51,9 @@
     >
     </el-pagination>
     <!--    新增对话框-->
-    <el-dialog v-model="dialogVisible" title="填写报名信息" width="60%">
+    <el-dialog v-model="dialogVisible" title="填写报名信息" width="20%">
       <!--      表单-->
-      <el-form ref="form" :model="form">
+      <el-form ref="form" :model="form" label-width="60px" :rules="rules">
         <el-form-item label="作品名">
           <el-input v-model="form.entriesname"></el-input>
         </el-form-item>
@@ -59,6 +61,9 @@
           <el-upload ref="upload" action="http://localhost:9090/files/upload" :on-success="filesUploadSuccess">
             <el-button type="primary">点击上传</el-button>
           </el-upload>
+        </el-form-item>
+        <el-form-item label="得分" prop="score">
+          <el-input v-model.number="form.score"></el-input>
         </el-form-item>
       </el-form>
       <!--      对话框按钮-->
@@ -86,6 +91,13 @@ export default {
   name: 'Enroll',
   components: {},
   data() {
+    const checkScore = (rule, value, callback) => {
+      if (value < 0 || value > 100) {
+        callback(new Error('得分范围0到100'))
+      } else {
+        callback()
+      }
+    };
     return {
       user: {},
       search: '',
@@ -96,6 +108,13 @@ export default {
       form: {},
       tableData: [],
       vis: false,
+      rules: {
+        score: [
+          {required: true, message: '得分不能为空，默认是0'},
+          {type: 'number', message: '得分必须为整数'},
+          {validator: checkScore},
+        ]
+      }
     }
   },
   created() { // 页面加载时调用load方法，获取数据显示在表格中 获取用户JSON
@@ -127,52 +146,60 @@ export default {
       })
     },
     save() {
-      if (this.form.enrollId) {
-        request.put("/enroll", this.form).then(res => { // 改
-          console.log(res)
-          if (res.code === 0) { // 判断操作是否成功
-            ElMessage({
-              type: "success",
-              message: "编辑成功",
-              center: true
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          console.log('表单验证成功')
+          if (this.form.enrollId) {
+            request.put("/enroll", this.form).then(res => { // 改
+              console.log(res)
+              if (res.code === 0) { // 判断操作是否成功
+                ElMessage({
+                  type: "success",
+                  message: "编辑成功",
+                  center: true
+                })
+              } else {
+                ElMessage({
+                  type: "error",
+                  message: res.msg,
+                  center: true
+                })
+              }
+              this.load() // 更新表格数据
+              this.dialogVisible = false
             })
           } else {
-            ElMessage({
-              type: "error",
-              message: res.msg,
-              center: true
-            })
-          }
-          this.load() // 更新表格数据
-          this.dialogVisible = false
-        })
-      } else {
-        // 设置发布者
-        let userStr = sessionStorage.getItem("user") || "{}"
-        let user = JSON.parse(userStr) // 转换为user对象user: {}
-        this.form.competitor = user.nickname
+            // 设置发布者
+            let userStr = sessionStorage.getItem("user") || "{}"
+            let user = JSON.parse(userStr) // 转换为user对象user: {}
+            this.form.competitor = user.nickname
 
-        request.post("/enroll", this.form).then(res => { //增
-          console.log(res)
-          if (res.code === 0) { // 判断操作是否成功
-            ElMessage({
-              type: "success",
-              message: "新增成功",
-              center: true
-            })
-          } else {
-            ElMessage({
-              type: "error",
-              message: res.msg,
-              center: true
+            request.post("/enroll", this.form).then(res => { //增
+              console.log(res)
+              if (res.code === 0) { // 判断操作是否成功
+                ElMessage({
+                  type: "success",
+                  message: "新增成功",
+                  center: true
+                })
+              } else {
+                ElMessage({
+                  type: "error",
+                  message: res.msg,
+                  center: true
+                })
+              }
+              this.load() // 更新表格数据
+              this.dialogVisible = false
             })
           }
-          this.load() // 更新表格数据
-          this.dialogVisible = false
-        })
-      }
-      // this.load() // 更新表格数据    这两行代码如果放在这里的话第二次执行才会刷新表格，原因未知
-      // this.dialogVisible = false
+          // this.load() // 更新表格数据    这两行代码如果放在这里的话第二次执行才会刷新表格，原因未知
+          // this.dialogVisible = false
+        } else {
+          console.log('表单验证失败')
+          return false
+        }
+      })
     },
     load() {
       request.get("/enroll", {

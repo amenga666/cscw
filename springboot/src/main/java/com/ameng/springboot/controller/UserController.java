@@ -21,6 +21,9 @@ public class UserController {
     // 增
     @PostMapping   // POST接口
     public Result<?> save(@RequestBody User user) {
+        if (user.getPassword() == null) {   // 设置默认密码为123456
+            user.setPassword("123456");
+        }
         userMapper.insert(user);   // 新增user实体
         return Result.success();
     }
@@ -79,7 +82,7 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}")   // 根据id获取用户信息
-    public Result<?> getById(@PathVariable Long user_id) {
+    public Result<?> getById(@PathVariable String user_id) {   // 此处user_id类型不正确汇报错400，感觉不应该是String
         return Result.success(userMapper.selectById(user_id));
     }
 }

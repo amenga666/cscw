@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card style="width: 30%; margin: 10px; text-align: center">修改个人信息
+    <el-card shadow="hover" class="card">修改个人信息
       <el-upload
           action="http://localhost:9090/files/upload"
           :show-file-list="false"
@@ -8,7 +8,7 @@
           list-type="picture-card"
           style="margin: 20px"
       >
-        <img v-if="form.avatar" :src="form.avatar" class="avatar" />
+        <img v-if="form.avatar" :src="form.avatar" class="avatar"/>
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
       <el-form ref="form" :model="form" label-width="60px">
@@ -80,6 +80,12 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  width: 30%;
+  margin: 10px;
+  text-align: center
+}
+
 .avatar {
   width: 148px;
   height: 148px;

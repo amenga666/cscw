@@ -8,7 +8,7 @@
     </div>
     <!--    表格-->
     <el-table :data="tableData" style="width: 100%; margin: 10px 0" border>
-      <el-table-column prop="noticeId" label="公告ID" sortable/>
+      <el-table-column prop="noticeId" label="公告ID" width="100px" sortable/>
       <el-table-column prop="title" label="标题"/>
       <el-table-column prop="publisher" label="发布者"/>
       <el-table-column prop="time" label="时间"/>
