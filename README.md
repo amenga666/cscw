@@ -58,7 +58,7 @@
 
    - 未实现报名者对报名信息的权限控制，即每个人只能管理自己的报名
 
-   - 报错400，本次问题，Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'，原因数据类型不匹配，将Long修改为String解决问题，但是不知道为什么user_id要用String
+   - 报错400，本次问题，Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'，原因数据类型不匹配，将Long修改为String可解决页面报错，但是会访问undefined
 
    - 报错访问超时5000，原因debugger没有放过去
 

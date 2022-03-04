@@ -12,7 +12,7 @@ public class User {
     @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
     private String userName;
-//    @JsonIgnore   // 忽略字段，不展示给前端 加上之后密码无法传到后端，问题待解决
+    //    @JsonIgnore   // 忽略字段，不展示给前端 加上之后密码无法传到后端，问题待解决
     private String password;
     private String nickname;
     private String sex;

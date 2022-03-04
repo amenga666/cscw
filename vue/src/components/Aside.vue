@@ -1,10 +1,7 @@
 <template>
   <div>
     <!--    default-active="" 默认高亮，引号中写index值，使用$route.path控制高亮菜单-->
-    <el-menu class="menu" router
-             :default-active="$route.path"
-             background-color="#545c64"
-             text-color="#fff"
+    <el-menu class="menu" router :default-active="$route.path" background-color="#545c64" text-color="#fff"
              active-text-color="#ffd04b">
       <el-menu-item index="/home">
         <el-icon>
@@ -22,7 +19,13 @@
         <el-icon>
           <eleme-filled/>
         </el-icon>
-        报名
+        参赛报名
+      </el-menu-item>
+      <el-menu-item index="/Score">
+        <el-icon>
+          <search/>
+        </el-icon>
+        成绩查询
       </el-menu-item>
       <el-menu-item index="/enroll" v-if="user.role === 1">
         <el-icon>
@@ -42,14 +45,14 @@
 
 <script>
 import {
-  User, House, Notification, Eleme, ElemeFilled
+  User, House, Notification, Eleme, ElemeFilled, Search
 } from '@element-plus/icons-vue'
 import request from "../utils/request";
 
 export default {
   name: "Aside",
   components: {
-    User, House, Notification, Eleme, ElemeFilled
+    User, House, Notification, Eleme, ElemeFilled, Search
   },
   data() {
     return {

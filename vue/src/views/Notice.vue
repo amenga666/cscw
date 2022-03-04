@@ -33,7 +33,7 @@
         style="margin: 10px"
         v-model:currentPage="currentPage"
         v-model:page-size="pageSize"
-        :page-sizes="[5, 10, 15, 20]"
+        :page-sizes="[2, 3, 4, 5]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         @size-change="handleSizeChange"
@@ -90,19 +90,19 @@ export default {
       user: {},
       search: '',
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 3,
       total: 0,
       dialogVisible: false,
       form: {},
       tableData: [],
       detail: {},
-      vis: false, // 控制公告详情弹窗
+      vis: false,   // 控制公告详情弹窗
     }
   },
-  created() { // 页面加载时调用load方法，获取数据显示在表格中 获取用户JSON
+  created() {   // 页面加载时调用load方法，获取数据显示在表格中 获取用户JSON
     this.load()
     let userStr = sessionStorage.getItem("user") || "{}"
-    this.user = JSON.parse(userStr) // 转换为user对象user: {}
+    this.user = JSON.parse(userStr)   // 转换为user对象user: {}
 
     // 请求服务端，确认当前登录用户的合法信息，防止通过修改缓存来更改用户权限
     request.get("/user/" + this.user.userId).then(res => {
@@ -115,7 +115,7 @@ export default {
     add() {
       this.dialogVisible = true
       this.form = {}
-      this.$nextTick(() => { // 处理未来元素
+      this.$nextTick(() => {   // 处理未来元素
         editor = new E('#div1')
 
         // 配置 server 接口地址 实现上传本地图片功能
@@ -125,13 +125,13 @@ export default {
       })
     },
     save() {
-      // console.log(editor.txt.html()) // 打印编辑器中的值
-      this.form.content = editor.txt.html() // 获取编辑器中的值，给实体赋值
+      // console.log(editor.txt.html())   // 打印编辑器中的值
+      this.form.content = editor.txt.html()   // 获取编辑器中的值，给实体赋值
 
       if (this.form.noticeId) {
-        request.put("/notice", this.form).then(res => { // 改
+        request.put("/notice", this.form).then(res => {   // 改
           console.log(res)
-          if (res.code === 0) { // 判断操作是否成功
+          if (res.code === 0) {   // 判断操作是否成功
             ElMessage({
               type: "success",
               message: "编辑成功",
@@ -144,18 +144,18 @@ export default {
               center: true
             })
           }
-          this.load() // 更新表格数据
+          this.load()   // 更新表格数据
           this.dialogVisible = false
         })
       } else {
         // 设置发布者
         let userStr = sessionStorage.getItem("user") || "{}"
-        let user = JSON.parse(userStr) // 转换为user对象user: {}
+        let user = JSON.parse(userStr)   // 转换为user对象user: {}
         this.form.publisher = user.nickname
 
         request.post("/notice", this.form).then(res => { //增
           console.log(res)
-          if (res.code === 0) { // 判断操作是否成功
+          if (res.code === 0) {   // 判断操作是否成功
             ElMessage({
               type: "success",
               message: "新增成功",
@@ -168,11 +168,11 @@ export default {
               center: true
             })
           }
-          this.load() // 更新表格数据
+          this.load()   // 更新表格数据
           this.dialogVisible = false
         })
       }
-      // this.load() // 更新表格数据    这两行代码如果放在这里的话第二次执行才会刷新表格，原因未知
+      // this.load()   // 更新表格数据    这两行代码如果放在这里的话第二次执行才会刷新表格，原因未知
       // this.dialogVisible = false
     },
     load() {
@@ -188,7 +188,7 @@ export default {
         this.total = res.data.total
       })
     },
-    details(row) { // 公告详情
+    details(row) {   // 公告详情
       this.detail = row
       this.vis = true
     },
@@ -197,7 +197,7 @@ export default {
       this.dialogVisible = true
 
       // 编辑富文本
-      this.$nextTick(() => { // 处理未来元素
+      this.$nextTick(() => {   // 处理未来元素
         editor = new E('#div1')
         editor.create()
         editor.txt.html(row.content)
@@ -206,7 +206,7 @@ export default {
     handDelete(noticeId) {
       console.log(noticeId)
       request.delete("/notice/" + noticeId).then(res => {
-        if (res.code === 0) { // 判断操作是否成功
+        if (res.code === 0) {   // 判断操作是否成功
           ElMessage({
             type: "success",
             message: "删除成功",
@@ -219,14 +219,14 @@ export default {
             center: true
           })
         }
-        this.load() // 更新表格数据
+        this.load()   // 更新表格数据
       })
     },
-    handleSizeChange(pageSize) { // 改变每页个数
+    handleSizeChange(pageSize) {   // 改变每页个数
       this.pageSize = pageSize
       this.load()
     },
-    handleCurrentChange(pageNum) { // 改变当前页码
+    handleCurrentChange(pageNum) {   // 改变当前页码
       this.currentPage = pageNum
       this.load()
     },

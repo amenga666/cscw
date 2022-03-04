@@ -1,13 +1,8 @@
 <template>
   <div>
     <el-card shadow="hover" class="card">修改个人信息
-      <el-upload
-          action="http://localhost:9090/files/upload"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          list-type="picture-card"
-          style="margin: 20px"
-      >
+      <el-upload action="http://localhost:9090/files/upload" :show-file-list="false" :on-success="handleAvatarSuccess"
+                 list-type="picture-card" style="margin: 20px">
         <img v-if="form.avatar" :src="form.avatar" class="avatar"/>
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
@@ -41,6 +36,7 @@
 import request from "../utils/request";
 
 export default {
+  inject: ['reload'],   // 注入App里的reload方法
   data() {
     return {
       form: {},
@@ -64,8 +60,7 @@ export default {
             message: "更新成功"
           })
           sessionStorage.setItem("user", JSON.stringify(this.form))
-          // 触发Layout更新用户信息
-          this.$emit("userInfo")
+          this.reload()   // 重新加载页面，更新头像
         } else {
           this.$message({
             type: "error",
@@ -82,13 +77,13 @@ export default {
 <style scoped>
 .card {
   width: 30%;
-  margin: 10px;
+  margin: 30px;
   text-align: center
 }
 
 .avatar {
-  width: 148px;
-  height: 148px;
+  width: 146px;
+  height: 146px;
   display: block;
 }
 </style>

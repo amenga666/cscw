@@ -12,23 +12,20 @@
       <el-table-column prop="entriesname" label="作品名"/>
       <el-table-column prop="competitor" label="参赛者"/>
       <el-table-column prop="enrolltime" label="报名时间"/>
-      <el-table-column prop="score" label="得分" width="100px"/>
-      <!--      <el-table-column label="图片文件">-->
-      <!--        <template #default="scope">-->
-      <!--          <el-image-->
-      <!--              style="width: 100px; height: 100px"-->
-      <!--              :src="scope.row.url"-->
-      <!--              :preview-src-list="[scope.row.url]"-->
-      <!--              fit="cover"-->
-      <!--          ></el-image>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-      <!--      设置操作列宽度为200px，避免三个按钮位置错乱-->
-      <el-table-column label="操作" width="200px">
+      <!--      显示是否评分-->
+      <el-table-column label="得分" width="100px">
+        <template #default="scope">
+          <span v-if="scope.row.score === null">未评分</span>
+          <span v-if="scope.row.score !== null">
+            {{ scope.row.score }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="300px">
         <!--        编辑、删除-->
         <!--        scope 暂时没找到使用文档，但是不加scope编辑对话框不显示-->
         <template #default="scope">
-          <el-button type="primary" size="small" @click="details(scope.row)">详情</el-button>
+          <el-button size="small" @click="downloadFile(scope.row)">查看作品</el-button>
           <el-button type="primary" size="small" @click="handleEdit(scope.row)" v-if="user.role === 1">编辑</el-button>
           <el-popconfirm title="确认删除？" @confirm="handDelete(scope.row.enrollId)">
             <template #reference>
@@ -74,12 +71,6 @@
         </span>
       </template>
     </el-dialog>
-
-    <el-dialog v-model="vis" title="报名详情" width="60%">
-      <el-card>
-        <div>报名详情</div>
-      </el-card>
-    </el-dialog>
   </div>
 </template>
 
@@ -107,7 +98,6 @@ export default {
       dialogVisible: false,
       form: {},
       tableData: [],
-      vis: false,
       rules: {
         score: [
           {required: true, message: '得分不能为空，默认是0'},
@@ -117,10 +107,10 @@ export default {
       }
     }
   },
-  created() { // 页面加载时调用load方法，获取数据显示在表格中 获取用户JSON
+  created() {   // 页面加载时调用load方法，获取数据显示在表格中 获取用户JSON
     this.load()
     let userStr = sessionStorage.getItem("user") || "{}"
-    this.user = JSON.parse(userStr) // 转换为user对象user: {}
+    this.user = JSON.parse(userStr)   // 转换为user对象user: {}
 
     // 请求服务端，确认当前登录用户的合法信息，防止通过修改缓存来更改用户权限
     request.get("/user/" + this.user.userId).then(res => {
@@ -130,13 +120,13 @@ export default {
     })
   },
   methods: {
+    downloadFile(row) {
+      console.log(row.url)
+      window.location.href = row.url
+    },
     filesUploadSuccess(res) {
       console.log(res)
       this.form.url = res.data   // 将上传成功返回的url赋值给表单
-    },
-    details(row) {   // 详情
-      this.detail = row
-      this.vis = true
     },
     add() {
       this.dialogVisible = true
@@ -152,7 +142,7 @@ export default {
           if (this.form.enrollId) {
             request.put("/enroll", this.form).then(res => { // 改
               console.log(res)
-              if (res.code === 0) { // 判断操作是否成功
+              if (res.code === 0) {   // 判断操作是否成功
                 ElMessage({
                   type: "success",
                   message: "编辑成功",
@@ -165,18 +155,18 @@ export default {
                   center: true
                 })
               }
-              this.load() // 更新表格数据
+              this.load()   // 更新表格数据
               this.dialogVisible = false
             })
           } else {
             // 设置发布者
             let userStr = sessionStorage.getItem("user") || "{}"
-            let user = JSON.parse(userStr) // 转换为user对象user: {}
+            let user = JSON.parse(userStr)   // 转换为user对象user: {}
             this.form.competitor = user.nickname
 
             request.post("/enroll", this.form).then(res => { //增
               console.log(res)
-              if (res.code === 0) { // 判断操作是否成功
+              if (res.code === 0) {   // 判断操作是否成功
                 ElMessage({
                   type: "success",
                   message: "新增成功",
@@ -189,11 +179,11 @@ export default {
                   center: true
                 })
               }
-              this.load() // 更新表格数据
+              this.load()   // 更新表格数据
               this.dialogVisible = false
             })
           }
-          // this.load() // 更新表格数据    这两行代码如果放在这里的话第二次执行才会刷新表格，原因未知
+          // this.load()   // 更新表格数据    这两行代码如果放在这里的话第二次执行才会刷新表格，原因未知
           // this.dialogVisible = false
         } else {
           console.log('表单验证失败')
@@ -215,7 +205,7 @@ export default {
       })
     },
     handleEdit(row) {
-      this.form = JSON.parse(JSON.stringify(row)) // 深拷贝form，使form成为一个独立的对象，避免输入数据后点击取消影响原数据，ES5
+      this.form = JSON.parse(JSON.stringify(row))   // 深拷贝form，使form成为一个独立的对象，避免输入数据后点击取消影响原数据，ES5
       this.dialogVisible = true
       this.$nextTick(() => {
         this.$refs["upload"].clearFiles()   // 清除历史文件列表
@@ -224,7 +214,7 @@ export default {
     handDelete(enrollId) {
       console.log(enrollId)
       request.delete("/enroll/" + enrollId).then(res => {
-        if (res.code === 0) { // 判断操作是否成功
+        if (res.code === 0) {   // 判断操作是否成功
           ElMessage({
             type: "success",
             message: "删除成功",
@@ -237,14 +227,14 @@ export default {
             center: true
           })
         }
-        this.load() // 更新表格数据
+        this.load()   // 更新表格数据
       })
     },
-    handleSizeChange(pageSize) { // 改变每页个数
+    handleSizeChange(pageSize) {   // 改变每页个数
       this.pageSize = pageSize
       this.load()
     },
-    handleCurrentChange(pageNum) { // 改变当前页码
+    handleCurrentChange(pageNum) {   // 改变当前页码
       this.currentPage = pageNum
       this.load()
     },

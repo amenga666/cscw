@@ -19,11 +19,7 @@
       <el-table-column prop="address" label="住址"/>
       <el-table-column label="头像">
         <template #default="scope">
-          <el-image
-              style="width: 100px; height: 100px"
-              :src="scope.row.avatar"
-              fit="cover"
-          ></el-image>
+          <el-image style="width: 100px; height: 100px" :src="scope.row.avatar" fit="cover"></el-image>
         </template>
       </el-table-column>
       <el-table-column label="权限">
@@ -51,7 +47,7 @@
         style="margin: 10px"
         v-model:currentPage="currentPage"
         v-model:page-size="pageSize"
-        :page-sizes="[5, 10, 15, 20]"
+        :page-sizes="[2, 3, 4, 5]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         @size-change="handleSizeChange"
@@ -59,11 +55,7 @@
     >
     </el-pagination>
     <!--    新增对话框-->
-    <el-dialog
-        v-model="dialogVisible"
-        title="Tips"
-        width="30%"
-    >
+    <el-dialog v-model="dialogVisible" title="Tips" width="30%">
       <!--      表单-->
       <el-form ref="form" :model="form" label-width="120px" @keyup.enter="save">
         <el-form-item label="用户名">
@@ -107,14 +99,14 @@ export default {
     return {
       search: '',
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 3,
       total: 0,
       dialogVisible: false,
       form: {},
       tableData: [],
     }
   },
-  created() { // 页面加载时调用load方法，获取数据显示在表格中
+  created() {   // 页面加载时调用load方法，获取数据显示在表格中
     this.load()
   },
   methods: {
@@ -124,9 +116,9 @@ export default {
     },
     save() {
       if (this.form.userId) {
-        request.put("/user", this.form).then(res => { // 改
+        request.put("/user", this.form).then(res => {   // 改
           console.log(res)
-          if (res.code === 0) { // 判断操作是否成功
+          if (res.code === 0) {   // 判断操作是否成功
             ElMessage({
               type: "success",
               message: "编辑成功",
@@ -139,13 +131,13 @@ export default {
               center: true
             })
           }
-          this.load() // 更新表格数据
+          this.load()   // 更新表格数据
           this.dialogVisible = false
         })
       } else {
-        request.post("/user", this.form).then(res => { //增
+        request.post("/user", this.form).then(res => {   //增
           console.log(res)
-          if (res.code === 0) { // 判断操作是否成功
+          if (res.code === 0) {   // 判断操作是否成功
             ElMessage({
               type: "success",
               message: "新增成功",
@@ -158,11 +150,11 @@ export default {
               center: true
             })
           }
-          this.load() // 更新表格数据
+          this.load()   // 更新表格数据
           this.dialogVisible = false
         })
       }
-      // this.load() // 更新表格数据    这两行代码如果放在这里的话第二次执行才会刷新表格，原因未知
+      // this.load()   // 更新表格数据    这两行代码如果放在这里的话第二次执行才会刷新表格，原因未知
       // this.dialogVisible = false
     },
     load() {
@@ -179,13 +171,13 @@ export default {
       })
     },
     handleEdit(row) {
-      this.form = JSON.parse(JSON.stringify(row)) // 深拷贝form，使form成为一个独立的对象，避免输入数据后点击取消影响原数据，ES5
+      this.form = JSON.parse(JSON.stringify(row))   // 深拷贝form，使form成为一个独立的对象，避免输入数据后点击取消影响原数据，ES5
       this.dialogVisible = true
     },
     handDelete(userId) {
       console.log(userId)
       request.delete("/user/" + userId).then(res => {
-        if (res.code === 0) { // 判断操作是否成功
+        if (res.code === 0) {   // 判断操作是否成功
           ElMessage({
             type: "success",
             message: "删除成功",
@@ -198,14 +190,14 @@ export default {
             center: true
           })
         }
-        this.load() // 更新表格数据
+        this.load()   // 更新表格数据
       })
     },
-    handleSizeChange(pageSize) { // 改变每页个数
+    handleSizeChange(pageSize) {     // 改变每页个数
       this.pageSize = pageSize
       this.load()
     },
-    handleCurrentChange(pageNum) { // 改变当前页码
+    handleCurrentChange(pageNum) {   // 改变当前页码
       this.currentPage = pageNum
       this.load()
     },
